@@ -29,17 +29,17 @@ for item in p_data['items']:
     published_date.append(item['volumeInfo']['publishedDate'])
 
 # verifying whether all four lists have equal amount of elements
-# print(len(ids))
-# print(len(titles))
-# print(len(authors))
-# print(len(published_date))
+print(len(ids))
+print(len(titles))
+print(len(authors))
+print(len(published_date))
 
 # processing authors list to have text as elements and not another list
 p_authors = []
 for author in authors:
     p_authors.append(", ".join(author))
 
-# print(p_authors)
+print(p_authors)
 
 # storing all the data into one list
 combined_data = []
@@ -53,13 +53,15 @@ conn = sqlite3.connect('books.db')
 cur = conn.cursor()
 
 # creating BOOKS table using sqlite
-# cur.execute('CREATE TABLE BOOKS(ID TEXT, TITLE TEXT, AUTHORS TEXT, PUBLISHED_DATE TEXT)')
+cur.execute('CREATE TABLE BOOKS(ID TEXT, TITLE TEXT, AUTHORS TEXT, PUBLISHED_DATE TEXT)')
 
 # inserting retrieved data into the BOOKS table
-# cur.executemany("INSERT INTO BOOKS(ID, TITLE, AUTHORS, PUBLISHED_DATE) VALUES(?, ?, ?, ?)", combined_data)
+cur.executemany("INSERT INTO BOOKS(ID, TITLE, AUTHORS, PUBLISHED_DATE) VALUES(?, ?, ?, ?)", combined_data)
 
-# conn.commit()
+# commiting changes to the db
+conn.commit()
 
+# viewing the data stored in BOOKS table
 cur.execute('SELECT * FROM BOOKS')
 
 books = cur.fetchall()
